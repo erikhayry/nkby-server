@@ -1,59 +1,49 @@
-var restify = require('restify'),
-    fs = require('fs'),
+var restify = require('restify')
+    build = require('./services/buildTree.js'),
+    readFile = require('./services/readFile.js'),
     path = require('path')
-
-function dirTree(filename) {
-    console.log(filename)
-    var _ignore = ['.DS_Store'];
-
-    if(_ignore.indexOf(path.basename(filename)) === -1){
-	    var stats = fs.lstatSync(filename),
-	        info = {
-	            path: filename,
-	            name: path.basename(filename)
-	        };
-
-	    if (stats.isDirectory()) {
-	        info.type = "folder";
-	        info.children = fs.readdirSync(filename).map(function(child) {
-	            return dirTree(filename + '/' + child);
-	        });
-	    } else {
-	        // Assuming it's a file. In real life it could be a symlink or
-	        // something else!
-	        info.type = "file";
-	    }    	
-    }
-
-    return info;
-}
-
-function read(req, res, next) {
-    var _path = './data/www/' + req.params.path.replace('-', '/') + '.html';
-
-    fs.readFile(_path, 'utf8', function(err, data) {
-        if (err) throw err;
-        res.send(data);
-        next();
-    });
-}
-
-function build(req, res, next) {
-    var _dirTree = dirTree('./data/www', false, null);
-
-    fs.writeFile('./data/tree/tree.json', JSON.stringify(_dirTree.children, null, '\t'), function(err) {
-        if (err) throw err;
-        res.send(_dirTree.children);
-    });
-
-    
-}
 
 var server = restify.createServer();
 
-server.get('/read/:path', read);
+
+server.get('/read/:path', readFile);
 server.get('/build/', build);
 
 server.listen(8080, function() {
     console.log('%s listening at %s', server.name, server.url);
+});
+
+
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+
+
+var insertDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('documents');
+  // Insert some documents
+  collection.insert([
+    {a : 1}, {a : 2}, {a : 3}
+  ], function(err, result) {
+  	console.log(result)
+    //assert.equal(err, null);
+    //assert.equal(3, result.result.n);
+    //assert.equal(3, result.ops.length);
+    console.log("Inserted 3 documents into the document collection");
+    callback(result);
+  });
+}
+
+// Connection URL
+//mongod --dbpath=/data --port 27017
+
+var url = 'mongodb://localhost:27017/nkby-server';
+// Use connect method to connect to the Server
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server");
+
+  insertDocuments(db, function() {
+    db.close();
+  });
 });
