@@ -2,7 +2,7 @@ var fs = require('fs'),
     tree = require('./tree.js');
 
 function build(req, res, next) {
-    var _dirTree = tree('./data/www', false, null).children,
+    var _dirTree = tree('./data/www/sidor', false, null).children,
     	_jsonPath = './data/tree/tree.json';	
     	_exists = fs.existsSync(_jsonPath);
 

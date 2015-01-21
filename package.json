@@ -10,6 +10,14 @@
   "license": "ISC",
   "devDependencies": {
     "mongodb": "^1.4.28",
-    "restify": "^2.8.4"
+    "restify": "^2.8.4",
+    "sanitize-html": "~1.5.1",
+    "cheerio": "~0.18.0",
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.12.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "dependencies": {
+    "lodash-node": "~2.4.1"
   }
 }
