@@ -16,6 +16,20 @@ _regYear = /\d{4}/g
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g
 
+_get = (path) ->
+    _deferred = Q.defer()
+    console.log path
+
+    fs.exists path, (exists) ->
+        if not exists
+            _deferred.reject()
+        else    
+            fs.readFile path, 'utf8', (err, data) ->
+                _deferred.reject err if err           
+                _deferred.resolve _sortAndClassify _sanitize data
+
+    _deferred.promise
+    
 _sanitize = (data) ->
     $ = cheerio.load data
     sanitizeHtml $('body').html(), _sanitizeSettings
@@ -28,6 +42,7 @@ _getElData = (el) ->
     sanitizeHtml el.html(), _sanitizeSettings
 
 _tag = (html) ->
+    #TODO ignore in urls
     html
         .replace _regYear, (match) ->
             '<span class="year">' + match + '</span>'
@@ -38,6 +53,7 @@ _tag = (html) ->
             '<span class="street">' + match + '</span>'   
 
 _sortAndClassify = (html) ->
+
     _handleElement = ($, el, type, index, opt) ->                    
                         $(el).addClass type + '-' + index
                         _score++
@@ -87,12 +103,6 @@ _sortAndClassify = (html) ->
     html: _getElData $
     score: _score
 
-module.exports = (path) ->
-    deferred = Q.defer()
-
-    fs.readFile path, 'utf8', (err, data) ->
-        deferred.reject err if err           
-        deferred.resolve _sortAndClassify _sanitize data
-
-    deferred.promise
+module.exports = 
+    get: _get
         

@@ -1,4 +1,4 @@
-var app, backup, bodyParser, db, express, logger, mongoskin, writefile;
+var app, backup, bodyParser, db, dbApi, express, logger, mongoskin, staticDataApi, writefile;
 
 express = require('express');
 
@@ -9,6 +9,10 @@ bodyParser = require('body-parser');
 logger = require('morgan');
 
 writefile = require('writefile');
+
+dbApi = require('./apis/db');
+
+staticDataApi = require('./apis/static-data');
 
 app = express();
 
@@ -24,101 +28,34 @@ db = mongoskin.db('mongodb://@localhost:27017/nkby', {
   safe: true
 });
 
-backup = function(name) {
-  return db.collection(name.replace('nkby.', '')).find({}).toArray(function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return writefile('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t')).then(function() {
-      return console.log(name + ' backed up');
+if (process.argv[2] !== '-ignore') {
+  backup = function(name) {
+    return db.collection(name.replace('nkby.', '')).find({}).toArray(function(e, result) {
+      if (e) {
+        return next(e);
+      }
+      return writefile('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t')).then(function() {
+        return console.log(name + ' backed up');
+      });
     });
-  });
-};
-
-db.collectionNames(function(err, items) {
-  var item, o, _results;
-  _results = [];
-  for (o in items) {
-    item = items[o];
-    _results.push(backup(item.name));
-  }
-  return _results;
-});
-
-app.param('collectionName', function(req, res, next, collectionName) {
-  req.collection = db.collection(collectionName);
-  return next();
-});
-
-app.get('/', function(req, res, next) {
-  return res.send('please select a collection, e.g., /collections/messages');
-});
-
-app.get('/collections/:collectionName', function(req, res, next) {
-  return req.collection.find({}, {
-    limit: 10,
-    sort: {
-      '_id': -1
+  };
+  db.collectionNames(function(err, items) {
+    var item, o, _results;
+    _results = [];
+    for (o in items) {
+      item = items[o];
+      _results.push(backup(item.name));
     }
-  }).toArray(function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return res.send(result);
+    return _results;
   });
-});
+}
 
-app.post('/collections/:collectionName', function(req, res, next) {
-  return req.collection.insert(req.body, {}, function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return res.send(result);
-  });
-});
+dbApi(app);
 
-app.get('/collections/:collectionName/:id', function(req, res, next) {
-  return req.collection.findById(req.params.id, function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return res.send(result);
-  });
-});
-
-app.put('/collections/:collectionName/:id', function(req, res, next) {
-  return req.collection.updateById(req.params.id, {
-    $set: req.body
-  }, {
-    safe: true,
-    multi: false
-  }, function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return res.send(result === 1 ? {
-      msg: 'success'
-    } : {
-      msg: 'error'
-    });
-  });
-});
-
-app["delete"]('/collections/:collectionName/:id', function(req, res, next) {
-  return req.collection.removeById(req.params.id, function(e, result) {
-    if (e) {
-      return next(e);
-    }
-    return res.send(result === 1 ? {
-      msg: 'success'
-    } : {
-      msg: 'error'
-    });
-  });
-});
+staticDataApi(app);
 
 app.listen(3000, function() {
-  return console.log('Express server listening on port 3001');
+  return console.log('Express server listening on port 3000');
 });
 
 //# sourceMappingURL=server.js.map

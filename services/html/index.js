@@ -1,4 +1,4 @@
-var Q, cheerio, fs, sanitizeHtml, _, _getElData, _regPerson, _regStreet, _regYear, _sanitize, _sanitizeSettings, _sortAndClassify, _tag;
+var Q, cheerio, fs, sanitizeHtml, _, _get, _getElData, _regPerson, _regStreet, _regYear, _sanitize, _sanitizeSettings, _sortAndClassify, _tag;
 
 fs = require('fs');
 
@@ -24,6 +24,25 @@ _regYear = /\d{4}/g;
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
 
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g;
+
+_get = function(path) {
+  var _deferred;
+  _deferred = Q.defer();
+  console.log(path);
+  fs.exists(path, function(exists) {
+    if (!exists) {
+      return _deferred.reject();
+    } else {
+      return fs.readFile(path, 'utf8', function(err, data) {
+        if (err) {
+          _deferred.reject(err);
+        }
+        return _deferred.resolve(_sortAndClassify(_sanitize(data)));
+      });
+    }
+  });
+  return _deferred.promise;
+};
 
 _sanitize = function(data) {
   var $;
@@ -83,16 +102,8 @@ _sortAndClassify = function(html) {
   };
 };
 
-module.exports = function(path) {
-  var deferred;
-  deferred = Q.defer();
-  fs.readFile(path, 'utf8', function(err, data) {
-    if (err) {
-      deferred.reject(err);
-    }
-    return deferred.resolve(_sortAndClassify(_sanitize(data)));
-  });
-  return deferred.promise;
+module.exports = {
+  get: _get
 };
 
 //# sourceMappingURL=index.js.map
