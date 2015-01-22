@@ -1,6 +1,6 @@
 var html;
 
-html = require('./services/html.js');
+html = require('./services/html');
 
 html('test.html').then(function(data) {
   return console.log(data);
