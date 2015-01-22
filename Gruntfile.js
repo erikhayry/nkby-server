@@ -1,37 +1,33 @@
 module.exports = function(grunt) {
-
-    // Project configuration.
-    grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
-        watch: {
-            coffee: {
-                files: ['**/*.coffee'],
-                tasks: ['coffee'],
-                options: {
-                    spawn: false,
-                },
-            },
-        },
-        coffee: {
-            options: {
-                bare: true,
-                sourceMap: true
-            },
-            compile: {
-                expand: true,
-                flatten: false,
-                cwd: "",
-                src: ["**/*.coffee", "!node_modules/**/*.coffee"],
-                dest: '',
-                ext: ".js"
-            }
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    watch: {
+      coffee: {
+        files: ['**/*.coffee'],
+        tasks: ['coffee'],
+        options: {
+          spawn: false
         }
-    });
-
-    grunt.loadNpmTasks('grunt-contrib-coffee');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-
-    // Default task(s).
-    grunt.registerTask('default', ['watch']);
-
+      }
+    },
+    coffee: {
+      options: {
+        bare: true,
+        sourceMap: true
+      },
+      compile: {
+        expand: true,
+        flatten: false,
+        cwd: "",
+        src: ["**/*.coffee", "!node_modules/**/*.coffee"],
+        dest: '',
+        ext: ".js"
+      }
+    }
+  });
+  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  return grunt.registerTask('default', ['watch']);
 };
+
+//# sourceMappingURL=Gruntfile.js.map
