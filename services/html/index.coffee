@@ -99,7 +99,8 @@ _SortAndClassify = (html) ->
                     .map (i, elem) ->
                         _handleElement $, elem, 'street', i
                     .get()
-            , 'data')                                                    
+                , 'data')
+                                                                 
     html: _getElData $
     score: _score
 
