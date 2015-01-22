@@ -1,8 +1,9 @@
-fs = require 'fs'
-sanitizeHtml = require 'sanitize-html'
-cheerio = require 'cheerio'
+Fs = require 'fs'
+SanitizeHtml = require 'sanitize-html'
+Cheerio = require 'cheerio'
 Q = require 'Q'
 _ = require 'lodash-node'
+
 _sanitizeSettings = {
             allowedTags: ['p', 'a', 'img', 'h1', 'h2', 'span']
             allowedAttributes:
@@ -16,42 +17,42 @@ _regYear = /\d{4}/g
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g
 
-_get = (path) ->
+_Get = (path) ->
     _deferred = Q.defer()
 
-    fs.exists path, (exists) ->
+    Fs.exists path, (exists) ->
         if not exists
             _deferred.reject()
         else    
-            fs.readFile path, 'utf8', (err, data) ->
+            Fs.readFile path, 'utf8', (err, html) ->
                 _deferred.reject err if err           
-                _deferred.resolve _sortAndClassify _sanitize data
+                _deferred.resolve _SortAndClassify _Sanitize html
 
     _deferred.promise
     
-_sanitize = (data) ->
-    $ = cheerio.load data
-    sanitizeHtml $('body').html(), _sanitizeSettings
+_Sanitize = (html) ->
+    $ = Cheerio.load html
+    SanitizeHtml $('body').html(), _sanitizeSettings
         .replace(/\s{2,}/g, ' ') #empty double rows
         .replace(/<[a-z]+><\/[a-z]+>/g, '') #empty tags
         .replace(/<p> <\/p>/g, '') #spaces
         .replace(/\n/g, '') #line breaks    
 
-_getElData = (el) ->
-    sanitizeHtml el.html(), _sanitizeSettings
+_SortAndClassify = (html) ->
 
-_tag = (html) ->
-    #TODO ignore in urls
-    html
-        .replace _regYear, (match) ->
-            '<span class="year">' + match + '</span>'
-        .replace _regPerson, (match) ->
-            '<span class="person">' + match + '</span>'
-        .replace _regStreet, (match) ->
-            match = match.replace('</span>', '') + '</span>' if match.indexOf('</span>') > -1
-            '<span class="street">' + match + '</span>'   
+    _getElData = (el) ->
+        SanitizeHtml el.html(), _sanitizeSettings
 
-_sortAndClassify = (html) ->
+    _tag = (html) ->
+        #TODO ignore in urls
+        html
+            .replace _regYear, (match) ->
+                '<span class="year">' + match + '</span>'
+            .replace _regPerson, (match) ->
+                '<span class="person">' + match + '</span>'
+            .replace _regStreet, (match) ->
+                match = match.replace('</span>', '') + '</span>' if match.indexOf('</span>') > -1
+                '<span class="street">' + match + '</span>' 
 
     _handleElement = ($, el, type, index, opt) ->                    
                         $(el).addClass type + '-' + index
@@ -62,7 +63,7 @@ _sortAndClassify = (html) ->
                         data: _getElData $(el)
                         index: index
 
-    $ = cheerio.load _tag html
+    $ = Cheerio.load _tag html
     _score = 0
     
     images: _.sortBy(
@@ -103,5 +104,5 @@ _sortAndClassify = (html) ->
     score: _score
 
 module.exports = 
-    get: _get
+    get: _Get
         

@@ -1,60 +1,60 @@
-var app, backup, bodyParser, db, dbApi, express, logger, mongoskin, staticDataApi, writefile;
+var BodyParser, DApi, Express, Logger, Mongoskin, StaticDataApi, Writefile, _Backup, _app, _db;
 
-express = require('express');
+Express = require('express');
 
-mongoskin = require('mongoskin');
+Mongoskin = require('mongoskin');
 
-bodyParser = require('body-parser');
+BodyParser = require('body-parser');
 
-logger = require('morgan');
+Logger = require('morgan');
 
-writefile = require('writefile');
+Writefile = require('writefile');
 
-dbApi = require('./apis/db');
+DApi = require('./apis/db');
 
-staticDataApi = require('./apis/static-data');
+StaticDataApi = require('./apis/static-data');
 
-app = express();
+_app = Express();
 
-app.use(bodyParser.json());
+_app.use(BodyParser.json());
 
-app.use(bodyParser.urlencoded({
+_app.use(BodyParser.urlencoded({
   extended: true
 }));
 
-app.use(logger('dev'));
+_app.use(Logger('dev'));
 
-db = mongoskin.db('mongodb://@localhost:27017/nkby', {
+_db = Mongoskin.db('mongodb://@localhost:27017/nkby', {
   safe: true
 });
 
 if (process.argv[2] !== '-ignore') {
-  backup = function(name) {
-    return db.collection(name.replace('nkby.', '')).find({}).toArray(function(e, result) {
+  _Backup = function(name) {
+    return _db.collection(name.replace('nkby.', '')).find({}).toArray(function(e, result) {
       if (e) {
         return next(e);
       }
-      return writefile('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t')).then(function() {
+      return Writefile('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t')).then(function() {
         return console.log(name + ' backed up');
       });
     });
   };
-  db.collectionNames(function(err, items) {
+  _db.collectionNames(function(err, items) {
     var item, o, _results;
     _results = [];
     for (o in items) {
       item = items[o];
-      _results.push(backup(item.name));
+      _results.push(_Backup(item.name));
     }
     return _results;
   });
 }
 
-dbApi(app);
+DApi(_app);
 
-staticDataApi(app);
+StaticDataApi(_app);
 
-app.listen(3000, function() {
+_app.listen(3000, function() {
   return console.log('Express server listening on port 3000');
 });
 

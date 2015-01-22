@@ -1,10 +1,10 @@
-var Q, cheerio, fs, sanitizeHtml, _, _get, _getElData, _regPerson, _regStreet, _regYear, _sanitize, _sanitizeSettings, _sortAndClassify, _tag;
+var Cheerio, Fs, Q, SanitizeHtml, _, _Get, _Sanitize, _SortAndClassify, _regPerson, _regStreet, _regYear, _sanitizeSettings;
 
-fs = require('fs');
+Fs = require('fs');
 
-sanitizeHtml = require('sanitize-html');
+SanitizeHtml = require('sanitize-html');
 
-cheerio = require('cheerio');
+Cheerio = require('cheerio');
 
 Q = require('Q');
 
@@ -25,49 +25,47 @@ _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåä
 
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g;
 
-_get = function(path) {
+_Get = function(path) {
   var _deferred;
   _deferred = Q.defer();
-  fs.exists(path, function(exists) {
+  Fs.exists(path, function(exists) {
     if (!exists) {
       return _deferred.reject();
     } else {
-      return fs.readFile(path, 'utf8', function(err, data) {
+      return Fs.readFile(path, 'utf8', function(err, html) {
         if (err) {
           _deferred.reject(err);
         }
-        return _deferred.resolve(_sortAndClassify(_sanitize(data)));
+        return _deferred.resolve(_SortAndClassify(_Sanitize(html)));
       });
     }
   });
   return _deferred.promise;
 };
 
-_sanitize = function(data) {
+_Sanitize = function(html) {
   var $;
-  $ = cheerio.load(data);
-  return sanitizeHtml($('body').html(), _sanitizeSettings).replace(/\s{2,}/g, ' ').replace(/<[a-z]+><\/[a-z]+>/g, '').replace(/<p> <\/p>/g, '').replace(/\n/g, '');
+  $ = Cheerio.load(html);
+  return SanitizeHtml($('body').html(), _sanitizeSettings).replace(/\s{2,}/g, ' ').replace(/<[a-z]+><\/[a-z]+>/g, '').replace(/<p> <\/p>/g, '').replace(/\n/g, '');
 };
 
-_getElData = function(el) {
-  return sanitizeHtml(el.html(), _sanitizeSettings);
-};
-
-_tag = function(html) {
-  return html.replace(_regYear, function(match) {
-    return '<span class="year">' + match + '</span>';
-  }).replace(_regPerson, function(match) {
-    return '<span class="person">' + match + '</span>';
-  }).replace(_regStreet, function(match) {
-    if (match.indexOf('</span>') > -1) {
-      match = match.replace('</span>', '') + '</span>';
-    }
-    return '<span class="street">' + match + '</span>';
-  });
-};
-
-_sortAndClassify = function(html) {
-  var $, _handleElement, _score;
+_SortAndClassify = function(html) {
+  var $, _getElData, _handleElement, _score, _tag;
+  _getElData = function(el) {
+    return SanitizeHtml(el.html(), _sanitizeSettings);
+  };
+  _tag = function(html) {
+    return html.replace(_regYear, function(match) {
+      return '<span class="year">' + match + '</span>';
+    }).replace(_regPerson, function(match) {
+      return '<span class="person">' + match + '</span>';
+    }).replace(_regStreet, function(match) {
+      if (match.indexOf('</span>') > -1) {
+        match = match.replace('</span>', '') + '</span>';
+      }
+      return '<span class="street">' + match + '</span>';
+    });
+  };
   _handleElement = function($, el, type, index, opt) {
     $(el).addClass(type + '-' + index);
     _score++;
@@ -78,7 +76,7 @@ _sortAndClassify = function(html) {
       index: index
     };
   };
-  $ = cheerio.load(_tag(html));
+  $ = Cheerio.load(_tag(html));
   _score = 0;
   return {
     images: _.sortBy($('img').map(function(i, elem) {
@@ -102,7 +100,7 @@ _sortAndClassify = function(html) {
 };
 
 module.exports = {
-  get: _get
+  get: _Get
 };
 
 //# sourceMappingURL=index.js.map
