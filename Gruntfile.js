@@ -27,7 +27,7 @@ module.exports = function(grunt) {
   });
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  return grunt.registerTask('default', ['watch']);
+  return grunt.registerTask('default', ['coffee', 'watch']);
 };
 
 //# sourceMappingURL=Gruntfile.js.map
