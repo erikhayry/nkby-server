@@ -18,7 +18,6 @@ _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9
 
 _get = (path) ->
     _deferred = Q.defer()
-    console.log path
 
     fs.exists path, (exists) ->
         if not exists

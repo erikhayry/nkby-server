@@ -28,7 +28,6 @@ _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9
 _get = function(path) {
   var _deferred;
   _deferred = Q.defer();
-  console.log(path);
   fs.exists(path, function(exists) {
     if (!exists) {
       return _deferred.reject();
