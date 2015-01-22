@@ -1,0 +1,464 @@
+{
+	"data": [
+		{
+			"path": "sidor/nyheter/alan0601.htm"
+		},
+		{
+			"path": "sidor/nyheter/diagram.htm"
+		},
+		{
+			"path": "sidor/nyheter/efterl01.htm"
+		},
+		{
+			"path": "sidor/nyheter/efterlys.htm"
+		},
+		{
+			"path": "sidor/nyheter/egocentr",
+			"children": []
+		},
+		{
+			"path": "sidor/nyheter/egocentr.htm"
+		},
+		{
+			"path": "sidor/nyheter/forsta.htm"
+		},
+		{
+			"path": "sidor/nyheter/gamlanyh.htm"
+		},
+		{
+			"path": "sidor/nyheter/hemb0402.htm"
+		},
+		{
+			"path": "sidor/nyheter/htm031102.htm"
+		},
+		{
+			"path": "sidor/nyheter/jtrec.htm"
+		},
+		{
+			"path": "sidor/nyheter/jtrecm",
+			"children": [
+				{
+					"path": "sidor/nyheter/jtrecm/tbg02_8x10_vrt.gif"
+				},
+				{
+					"path": "sidor/nyheter/jtrecm/trans01_10x10.gif"
+				}
+			]
+		},
+		{
+			"path": "sidor/nyheter/menyganyh.htm"
+		},
+		{
+			"path": "sidor/nyheter/np050819-filer",
+			"children": [
+				{
+					"path": "sidor/nyheter/np050819-filer/831380_240.jpg"
+				},
+				{
+					"path": "sidor/nyheter/np050819-filer/nplogo450.gif"
+				}
+			]
+		},
+		{
+			"path": "sidor/nyheter/np050819.htm"
+		},
+		{
+			"path": "sidor/nyheter/np050819t.htm"
+		},
+		{
+			"path": "sidor/nyheter/ny100ari.htm"
+		},
+		{
+			"path": "sidor/nyheter/nyforvar.htm"
+		},
+		{
+			"path": "sidor/nyheter/nyheter.htm"
+		},
+		{
+			"path": "sidor/nyheter/nyinfort.htm"
+		},
+		{
+			"path": "sidor/nyheter/nytv0310.htm"
+		},
+		{
+			"path": "sidor/nyheter/nytv1104.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0403.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0510.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0511.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0512.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0601.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0602.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0603.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0604.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0605.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0606.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0607.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0608.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0609.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0610.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0611.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0612.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0701.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0702.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0703.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0704.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0705.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0706.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0707.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0708.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0709.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0710.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0711.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0712.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0801.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0802.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0803.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0804.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0805.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0806.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0807.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0808.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0809.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0810.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0811.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0812.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0901.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0902.htm"
+		},
+		{
+			"path": "sidor/nyheter/old0903.html"
+		},
+		{
+			"path": "sidor/nyheter/old0904.html"
+		},
+		{
+			"path": "sidor/nyheter/old0905.html"
+		},
+		{
+			"path": "sidor/nyheter/old0906.html"
+		},
+		{
+			"path": "sidor/nyheter/old0907.html"
+		},
+		{
+			"path": "sidor/nyheter/old0908.html"
+		},
+		{
+			"path": "sidor/nyheter/old0909.html"
+		},
+		{
+			"path": "sidor/nyheter/old0910.html"
+		},
+		{
+			"path": "sidor/nyheter/old0911.html"
+		},
+		{
+			"path": "sidor/nyheter/old0912.html"
+		},
+		{
+			"path": "sidor/nyheter/old1001.html"
+		},
+		{
+			"path": "sidor/nyheter/old1002.html"
+		},
+		{
+			"path": "sidor/nyheter/old1003.html"
+		},
+		{
+			"path": "sidor/nyheter/old1004.html"
+		},
+		{
+			"path": "sidor/nyheter/old1005.html"
+		},
+		{
+			"path": "sidor/nyheter/old1006.html"
+		},
+		{
+			"path": "sidor/nyheter/old1007.html"
+		},
+		{
+			"path": "sidor/nyheter/old1008.html"
+		},
+		{
+			"path": "sidor/nyheter/old1009.html"
+		},
+		{
+			"path": "sidor/nyheter/old1010.html"
+		},
+		{
+			"path": "sidor/nyheter/old1011.html"
+		},
+		{
+			"path": "sidor/nyheter/old1012.html"
+		},
+		{
+			"path": "sidor/nyheter/old1101.html"
+		},
+		{
+			"path": "sidor/nyheter/old1102.html"
+		},
+		{
+			"path": "sidor/nyheter/old1103.html"
+		},
+		{
+			"path": "sidor/nyheter/old1104.html"
+		},
+		{
+			"path": "sidor/nyheter/old1105.html"
+		},
+		{
+			"path": "sidor/nyheter/old1106.html"
+		},
+		{
+			"path": "sidor/nyheter/old1108.html"
+		},
+		{
+			"path": "sidor/nyheter/old1109.html"
+		},
+		{
+			"path": "sidor/nyheter/old1110.html"
+		},
+		{
+			"path": "sidor/nyheter/old1111.html"
+		},
+		{
+			"path": "sidor/nyheter/old1112.html"
+		},
+		{
+			"path": "sidor/nyheter/old1201.html"
+		},
+		{
+			"path": "sidor/nyheter/old1202.html"
+		},
+		{
+			"path": "sidor/nyheter/old1203.html"
+		},
+		{
+			"path": "sidor/nyheter/old1204.html"
+		},
+		{
+			"path": "sidor/nyheter/old1205.html"
+		},
+		{
+			"path": "sidor/nyheter/old1206.html"
+		},
+		{
+			"path": "sidor/nyheter/old1207.html"
+		},
+		{
+			"path": "sidor/nyheter/old1208.html"
+		},
+		{
+			"path": "sidor/nyheter/old1209.html"
+		},
+		{
+			"path": "sidor/nyheter/old1210.html"
+		},
+		{
+			"path": "sidor/nyheter/old1211.html"
+		},
+		{
+			"path": "sidor/nyheter/old1212.html"
+		},
+		{
+			"path": "sidor/nyheter/old1301.html"
+		},
+		{
+			"path": "sidor/nyheter/old1302.html"
+		},
+		{
+			"path": "sidor/nyheter/old1303.html"
+		},
+		{
+			"path": "sidor/nyheter/old1304.html"
+		},
+		{
+			"path": "sidor/nyheter/old1305.html"
+		},
+		{
+			"path": "sidor/nyheter/old1306.html"
+		},
+		{
+			"path": "sidor/nyheter/old1308.html"
+		},
+		{
+			"path": "sidor/nyheter/old1309.html"
+		},
+		{
+			"path": "sidor/nyheter/old1310.html"
+		},
+		{
+			"path": "sidor/nyheter/old1311.html"
+		},
+		{
+			"path": "sidor/nyheter/old1312.html"
+		},
+		{
+			"path": "sidor/nyheter/old1401.html"
+		},
+		{
+			"path": "sidor/nyheter/old1402.html"
+		},
+		{
+			"path": "sidor/nyheter/old1403.html"
+		},
+		{
+			"path": "sidor/nyheter/old1404.html"
+		},
+		{
+			"path": "sidor/nyheter/old1405.html"
+		},
+		{
+			"path": "sidor/nyheter/old1406.html"
+		},
+		{
+			"path": "sidor/nyheter/old1408.html"
+		},
+		{
+			"path": "sidor/nyheter/old1409.html"
+		},
+		{
+			"path": "sidor/nyheter/old1410.html"
+		},
+		{
+			"path": "sidor/nyheter/old1411.html"
+		},
+		{
+			"path": "sidor/nyheter/old1412.html"
+		},
+		{
+			"path": "sidor/nyheter/publicer.htm"
+		},
+		{
+			"path": "sidor/nyheter/setganyh.htm"
+		},
+		{
+			"path": "sidor/nyheter/smbl1992.htm"
+		},
+		{
+			"path": "sidor/nyheter/somsta03.htm"
+		},
+		{
+			"path": "sidor/nyheter/stat.htm"
+		},
+		{
+			"path": "sidor/nyheter/vbl030831",
+			"children": [
+				{
+					"path": "sidor/nyheter/vbl030831/DSCN2218.JPG"
+				},
+				{
+					"path": "sidor/nyheter/vbl030831/SELECT.GIF"
+				},
+				{
+					"path": "sidor/nyheter/vbl030831/TF_030829_01.jpg"
+				},
+				{
+					"path": "sidor/nyheter/vbl030831/TF_030829_02.jpg"
+				},
+				{
+					"path": "sidor/nyheter/vbl030831/TF_030829_05.jpg"
+				},
+				{
+					"path": "sidor/nyheter/vbl030831/vbl300803.htm"
+				}
+			]
+		},
+		{
+			"path": "sidor/nyheter/vega_yle_fi-filer",
+			"children": [
+				{
+					"path": "sidor/nyheter/vega_yle_fi-filer/vegabalk_10_a.gif"
+				},
+				{
+					"path": "sidor/nyheter/vega_yle_fi-filer/vegabalk_10_b.gif"
+				}
+			]
+		}
+	],
+	"root": "./data/www/"
+}

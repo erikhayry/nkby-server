@@ -1,4 +1,4 @@
-var Fs, Path, Q, _, _Build, _BuildTree, _Get;
+var Fs, Path, Q, _, _Build, _BuildTree, _Get, _root;
 
 Fs = require('fs');
 
@@ -8,26 +8,27 @@ Path = require('path');
 
 _ = require('lodash-node');
 
-_BuildTree = function(folder) {
-  var _basename, _ignore, _info, _stats;
-  _ignore = ['.DS_Store'];
+_root = '';
+
+_BuildTree = function(rootFolder, folder) {
+  var toIgnore, _basename, _i, _ignore, _info, _len, _stats;
+  _ignore = ['.ds_store', 'css', 'spacer.gif', 'clearpixel.gif'];
   _basename = Path.basename(folder);
-  if (_ignore.indexOf(_basename) > -1) {
-    return void 0;
+  for (_i = 0, _len = _ignore.length; _i < _len; _i++) {
+    toIgnore = _ignore[_i];
+    if (folder.toLowerCase().indexOf(toIgnore) > -1) {
+      return void 0;
+    }
   }
-  _stats = Fs.lstatSync(folder);
+  _stats = Fs.lstatSync(rootFolder + folder);
   _info = {
-    path: folder,
-    name: _basename
+    path: folder
   };
   if (_stats.isDirectory()) {
-    _info.type = "folder";
-    _info.children = Fs.readdirSync(folder).map(function(child) {
-      return _BuildTree(folder + '/' + child);
+    _info.children = Fs.readdirSync(rootFolder + folder).map(function(child) {
+      return _BuildTree(rootFolder, folder + '/' + child);
     });
     _info.children = _.without(_info.children, void 0);
-  } else {
-    _info.type = "file";
   }
   return _info;
 };
@@ -51,18 +52,23 @@ _Get = function(path) {
 };
 
 _Build = function(path) {
-  var _deferred, _dirTree, _jsonPath;
+  var _dataPath, _deferred, _dirTree, _json, _jsonPath;
   _deferred = Q.defer();
-  _dirTree = _BuildTree(path, false, null).children;
-  _jsonPath = './data/tree/tree.json';
+  _dataPath = './data/www/';
+  _dirTree = _BuildTree(_dataPath, path, false, null).children;
+  _json = {
+    data: _dirTree,
+    root: _dataPath
+  };
+  _jsonPath = './data/tree/' + path.replace(/\//g, '-') + '.json';
   if (Fs.existsSync(_jsonPath)) {
-    Fs.renameSync(_jsonPath, './data/tree/tree-' + new Date().getTime() + '.json');
+    Fs.renameSync(_jsonPath, './data/tree/' + path.replace(/\//g, '-') + new Date().getTime() + '.json');
   }
-  Fs.writeFile(_jsonPath, JSON.stringify(_dirTree, null, '\t'), function(err) {
+  Fs.writeFile(_jsonPath, JSON.stringify(_json, null, '\t'), function(err) {
     if (err) {
       _deferred.reject(err);
     }
-    return _deferred.resolve(_dirTree);
+    return _deferred.resolve(_json);
   });
   return _deferred.promise;
 };

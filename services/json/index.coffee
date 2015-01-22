@@ -2,29 +2,25 @@ Fs = require 'fs'
 Q = require 'Q'
 Path = require 'path'
 _ = require 'lodash-node'
+_root = ''
 
-_BuildTree = (folder) ->
-    _ignore = ['.DS_Store']
+_BuildTree = (rootFolder, folder) ->
+    _ignore = ['.ds_store', 'css', 'spacer.gif', 'clearpixel.gif']
     _basename = Path.basename folder
 
-    return undefined if _ignore.indexOf(_basename) > -1
+    for toIgnore in _ignore
+	    return undefined if folder.toLowerCase().indexOf(toIgnore) > -1  	
 
-    _stats = Fs.lstatSync folder
+    _stats = Fs.lstatSync rootFolder+folder
     _info = 
         path: folder
-        name: _basename
         
-
     if _stats.isDirectory()
-        _info.type = "folder"
-        _info.children = Fs.readdirSync folder
+        _info.children = Fs.readdirSync rootFolder+folder
         	.map (child) ->
-            	_BuildTree folder+'/'+child	
+            	_BuildTree rootFolder, folder+'/'+child	
 
         _info.children = _.without _info.children, undefined   	 	 
-
-    else
-        _info.type = "file";	
 
    	_info
 
@@ -43,15 +39,21 @@ _Get = (path) ->
 
 _Build = (path) ->
 	_deferred = Q.defer()
-	_dirTree = _BuildTree path, false, null
+	_dataPath = './data/www/'
+	_dirTree = _BuildTree _dataPath, path, false, null
 		.children
-	_jsonPath = './data/tree/tree.json'
+	
+	_json = 
+		data: _dirTree
+		root: _dataPath
 
-	Fs.renameSync(_jsonPath, './data/tree/tree-' + new Date().getTime() + '.json') if Fs.existsSync _jsonPath
+	_jsonPath = './data/tree/' + path.replace(/\//g, '-') + '.json'
 
-	Fs.writeFile _jsonPath, JSON.stringify(_dirTree, null, '\t'), (err) ->
+	Fs.renameSync(_jsonPath, './data/tree/' + path.replace(/\//g, '-') + new Date().getTime() + '.json') if Fs.existsSync _jsonPath
+
+	Fs.writeFile _jsonPath, JSON.stringify(_json, null, '\t'), (err) ->
 		_deferred.reject err if err
-		_deferred.resolve _dirTree
+		_deferred.resolve _json
 
 	_deferred.promise
 
