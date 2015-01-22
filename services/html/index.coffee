@@ -55,13 +55,13 @@ _SortAndClassify = (html) ->
                 '<span class="street">' + match + '</span>' 
 
     _handleElement = ($, el, type, index, opt) ->                    
-                        $(el).addClass type + '-' + index
-                        _score++
+        $(el).addClass type + '-' + index
+        _score++
 
-                        attribs: el.attribs
-                        text: $(el).text()
-                        data: _getElData $(el)
-                        index: index
+        attribs: el.attribs
+        text: $(el).text()
+        data: _getElData $(el)
+        index: index
 
     $ = Cheerio.load _tag html
     _score = 0
@@ -71,28 +71,28 @@ _SortAndClassify = (html) ->
                     .map (i, elem) ->
                         _handleElement $, elem, 'image', i
                     .get()
-            , 'attribs')        
+                , 'attribs')        
 
     links:  _.sortBy(
                 $ 'a'
                     .map (i, elem) ->
                         _handleElement $, elem, 'link', i
                     .get()
-            , 'attribs')        
+                , 'attribs')        
 
     years: _.sortBy(
                 $ '.year'
                     .map (i, elem) ->
                         _handleElement $, elem, 'year', i
                     .get()
-            , 'data')
+                , 'data')
 
     people: _.sortBy(
                 $ '.person'
                     .map (i, elem) ->
                         _handleElement $, elem, 'person', i
                     .get()
-            , 'data')
+                , 'data')
 
     streets: _.sortBy(
                 $ '.street'
