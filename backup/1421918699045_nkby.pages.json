@@ -1,0 +1,18 @@
+[
+	{
+		"_id": "54be59752f46afe4953ae9a3",
+		"url": "page1.html",
+		"coordinates": {
+			"lat": -34.397,
+			"lang": 150.644
+		}
+	},
+	{
+		"_id": "54be59752f46afe4953ae9a5",
+		"url": "page3.html",
+		"coordinates": {
+			"lat": -34.3234,
+			"lang": 1
+		}
+	}
+]

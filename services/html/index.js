@@ -21,9 +21,9 @@ _sanitizeSettings = {
 
 _regYear = /\d{4}/g;
 
-_regPerson = /[A-ZÅÄÖ]([a-zåäöé]+|\.)(?:\s+[A-ZÅÄÖ]([a-zåäöé]+|\.)){1,3}/g;
+_regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
 
-_regStreet = /([A-ZÅÄÖ][a-zåäö]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g;
+_regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g;
 
 _sanitize = function(data) {
   var $;
@@ -49,46 +49,37 @@ _tag = function(html) {
 };
 
 _sortAndClassify = function(html) {
-  var $;
+  var $, _handleElement, _score;
+  _handleElement = function($, el, type, index, opt) {
+    $(el).addClass(type + '-' + index);
+    _score++;
+    return {
+      attribs: el.attribs,
+      text: $(el).text(),
+      data: _getElData($(el)),
+      index: index
+    };
+  };
   $ = cheerio.load(_tag(html));
+  _score = 0;
   return {
     images: _.sortBy($('img').map(function(i, elem) {
-      $(this).addClass('image-' + i);
-      return {
-        attribs: this.attribs,
-        index: i
-      };
+      return _handleElement($, elem, 'image', i);
     }).get(), 'attribs'),
     links: _.sortBy($('a').map(function(i, elem) {
-      $(this).addClass('link-' + i);
-      return {
-        attribs: this.attribs,
-        data: _getElData($(this)),
-        index: i
-      };
+      return _handleElement($, elem, 'link', i);
     }).get(), 'attribs'),
     years: _.sortBy($('.year').map(function(i, elem) {
-      $(this).addClass('year-' + i);
-      return {
-        data: _getElData($(this)),
-        index: i
-      };
+      return _handleElement($, elem, 'year', i);
     }).get(), 'data'),
     people: _.sortBy($('.person').map(function(i, elem) {
-      $(this).addClass('person-' + i);
-      return {
-        data: _getElData($(this)),
-        index: i
-      };
+      return _handleElement($, elem, 'person', i);
     }).get(), 'data'),
     streets: _.sortBy($('.street').map(function(i, elem) {
-      $(this).addClass('street-' + i);
-      return {
-        data: _getElData($(this)),
-        index: i
-      };
+      return _handleElement($, elem, 'street', i);
     }).get(), 'data'),
-    html: _getElData($)
+    html: _getElData($),
+    score: _score
   };
 };
 

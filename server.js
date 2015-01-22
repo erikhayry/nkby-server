@@ -1,4 +1,4 @@
-var app, backup, bodyParser, db, express, fs, logger, mongoskin;
+var app, backup, bodyParser, db, express, logger, mongoskin, writefile;
 
 express = require('express');
 
@@ -8,7 +8,7 @@ bodyParser = require('body-parser');
 
 logger = require('morgan');
 
-fs = require('fs');
+writefile = require('writefile');
 
 app = express();
 
@@ -29,8 +29,9 @@ backup = function(name) {
     if (e) {
       return next(e);
     }
-    fs.writeFileSync('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t'));
-    return console.log('backupped ' + name);
+    return writefile('backup/' + new Date().getTime() + '_' + name + '.json', JSON.stringify(result, null, '\t')).then(function() {
+      return console.log(name + ' backed up');
+    });
   });
 };
 
@@ -120,4 +121,4 @@ app.listen(3000, function() {
   return console.log('Express server listening on port 3001');
 });
 
-//# sourceMappingURL=express2.js.map
+//# sourceMappingURL=server.js.map
