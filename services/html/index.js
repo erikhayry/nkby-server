@@ -19,7 +19,7 @@ _sanitizeSettings = {
   }
 };
 
-_regYear = /\d{4}/g;
+_regYear = /\d{4}(?![A-z\.\-"'@])/g;
 
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
 
@@ -46,7 +46,9 @@ _Get = function(path) {
 _Sanitize = function(html) {
   var $;
   $ = Cheerio.load(html);
-  return SanitizeHtml($('body').html(), _sanitizeSettings).replace(/\s{2,}/g, ' ').replace(/<[a-z]+><\/[a-z]+>/g, '').replace(/<p> <\/p>/g, '').replace(/\n/g, '');
+  return SanitizeHtml($('body').html(), _sanitizeSettings).replace(/(([A-ZÅÄÖ]) )(([A-zÅÄÖåäö]) )+/g, function(match) {
+    return match.replace(/\ /g, '') + ' ';
+  }).replace(/\s{2,}/g, ' ').replace(/<[a-z]+><\/[a-z]+>/g, '').replace(/<p> <\/p>/g, '').replace(/\n/g, '');
 };
 
 _SortAndClassify = function(html) {
@@ -68,7 +70,6 @@ _SortAndClassify = function(html) {
   };
   _handleElement = function($, el, type, index, opt) {
     $(el).addClass(type + '-' + index);
-    _score++;
     return {
       attribs: el.attribs,
       text: $(el).text(),
@@ -86,12 +87,15 @@ _SortAndClassify = function(html) {
       return _handleElement($, elem, 'link', i);
     }).get(), 'attribs'),
     years: _.sortBy($('.year').map(function(i, elem) {
+      _score++;
       return _handleElement($, elem, 'year', i);
     }).get(), 'data'),
     people: _.sortBy($('.person').map(function(i, elem) {
+      _score++;
       return _handleElement($, elem, 'person', i);
     }).get(), 'data'),
     streets: _.sortBy($('.street').map(function(i, elem) {
+      _score++;
       return _handleElement($, elem, 'street', i);
     }).get(), 'data'),
     html: _getElData($),

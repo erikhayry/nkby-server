@@ -11,10 +11,13 @@
   "devDependencies": {
     "body-parser": "^1.10.2",
     "cheerio": "~0.18.0",
+    "cors": "^2.5.3",
     "express": "^4.11.1",
     "grunt": "^0.4.5",
+    "grunt-concurrent": "^1.0.0",
     "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-nodemon": "^0.3.0",
     "mongodb": "^1.4.28",
     "mongoskin": "^1.4.12",
     "morgan": "^1.5.1",

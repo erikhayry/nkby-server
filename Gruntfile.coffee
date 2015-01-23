@@ -3,6 +3,16 @@ module.exports = (grunt) ->
     grunt.initConfig 
         pkg: grunt.file.readJSON 'package.json'
         
+        concurrent:
+            server: 
+                tasks: ['nodemon', 'watch']
+                options:
+                    logConcurrentOutput: true
+
+        nodemon:           
+            server: 
+                script: 'server.js'
+
         watch:
             coffee:
                 files: ['**/*.coffee']
@@ -18,12 +28,14 @@ module.exports = (grunt) ->
             compile:
                 expand: true
                 flatten: false
-                cwd: ""
-                src: ["**/*.coffee", "!node_modules/**/*.coffee"]
+                cwd: ''
+                src: ['**/*.coffee', '!node_modules/**/*.coffee']
                 dest: ''
-                ext: ".js"
+                ext: '.js'
 
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.loadNpmTasks 'grunt-nodemon'
+    grunt.loadNpmTasks 'grunt-concurrent'
 
-    grunt.registerTask 'default', ['coffee', 'watch']
+    grunt.registerTask 'default', ['coffee', 'concurrent']

@@ -3,14 +3,16 @@ Mongoskin = require 'mongoskin'
 BodyParser = require 'body-parser'
 Logger = require 'morgan'
 Writefile = require 'writefile'
+Cors = require 'cors'
 
 DApi = require './apis/db'
 StaticDataApi = require './apis/static-data'
 
 _app = Express()
+_app.use Cors()
 _app.use BodyParser.json()
 _app.use BodyParser.urlencoded extended: true
-_app.use Logger 'dev'
+_app.use Logger 'dev'	
 
 _db = Mongoskin.db 'mongodb://@localhost:27017/nkby', safe: true
 

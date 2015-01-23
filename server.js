@@ -1,4 +1,4 @@
-var BodyParser, DApi, Express, Logger, Mongoskin, StaticDataApi, Writefile, _Backup, _app, _db;
+var BodyParser, Cors, DApi, Express, Logger, Mongoskin, StaticDataApi, Writefile, _Backup, _app, _db;
 
 Express = require('express');
 
@@ -10,11 +10,15 @@ Logger = require('morgan');
 
 Writefile = require('writefile');
 
+Cors = require('cors');
+
 DApi = require('./apis/db');
 
 StaticDataApi = require('./apis/static-data');
 
 _app = Express();
+
+_app.use(Cors());
 
 _app.use(BodyParser.json());
 

@@ -1,8 +1,8 @@
 html = require '../services/html'
 json = require '../services/json'
 
-#html.get './temp/heavyTextExample.html'
-	#.then (data) -> console.log data
+html.get './temp/heavyTextExample.html'
+	.then (data) -> console.log data
 
 #html.get './temp/faultyTextExample.html'
 	#.then (data) -> console.log data
@@ -14,5 +14,5 @@ json = require '../services/json'
 			console.log 'unable to read file'###
 		
 
-json.build 'sidor'
-	.then (data) -> console.log data
+#json.build 'sidor'
+	#.then (data) -> console.log data
