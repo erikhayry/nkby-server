@@ -28,8 +28,11 @@ _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9
 _Get = function(path) {
   var _deferred;
   _deferred = Q.defer();
+  path = './data/www/' + path;
+  console.log(path);
   Fs.exists(path, function(exists) {
     if (!exists) {
+      console.log('not found');
       return _deferred.reject();
     } else {
       return Fs.readFile(path, 'utf8', function(err, html) {

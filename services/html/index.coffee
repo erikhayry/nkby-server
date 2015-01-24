@@ -19,9 +19,13 @@ _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9
 
 _Get = (path) ->
     _deferred = Q.defer()
+    path = './data/www/'+path
+
+    console.log path
 
     Fs.exists path, (exists) ->
         if not exists
+            console.log 'not found'
             _deferred.reject()
         else    
             Fs.readFile path, 'utf8', (err, html) ->
