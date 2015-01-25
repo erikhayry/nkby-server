@@ -4,9 +4,7 @@ html = require('../services/html');
 
 json = require('../services/json');
 
-html.get('./temp/heavyTextExample.html').then(function(data) {
-  return console.log(data);
-});
+html.get('./sidor/46/00preview46.html');
 
 
 /*json.get './backup/1421918588069_nkby.testData.json'

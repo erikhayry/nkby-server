@@ -1,6 +1,8 @@
-var Cheerio, Fs, Q, SanitizeHtml, _, _Get, _Sanitize, _SortAndClassify, _regPerson, _regStreet, _regYear, _sanitizeSettings;
+var Cheerio, Fs, Path, Q, SanitizeHtml, _, _Get, _Sanitize, _SortAndClassify, _regPerson, _regStreet, _regYear, _sanitizeSettings;
 
 Fs = require('fs');
+
+Path = require('path');
 
 SanitizeHtml = require('sanitize-html');
 
@@ -19,7 +21,7 @@ _sanitizeSettings = {
   }
 };
 
-_regYear = /\d{4}(?![A-z\.\-"'@])/g;
+_regYear = /\d{4}(?![A-z\.\-"'@\/])/g;
 
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
 
@@ -72,18 +74,31 @@ _SortAndClassify = function(html) {
     });
   };
   _handleElement = function($, el, type, index, opt) {
+    var href, src;
     $(el).addClass(type + '-' + index);
+    src = el.attribs.src || '';
+    href = el.attribs.href || '';
     return {
-      attribs: el.attribs,
       text: $(el).text(),
       data: _getElData($(el)),
-      index: index
+      index: index,
+      src: {
+        local: el.attribs.src,
+        www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src)
+      },
+      href: {
+        local: el.attribs.href,
+        www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', href)
+      }
     };
   };
   $ = Cheerio.load(_tag(html));
   _score = 0;
   return {
     images: _.sortBy($('img').map(function(i, elem) {
+      if (elem.attribs.src) {
+        $(elem).attr('src', 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', elem.attribs.src));
+      }
       return _handleElement($, elem, 'image', i);
     }).get(), 'attribs'),
     links: _.sortBy($('a').map(function(i, elem) {

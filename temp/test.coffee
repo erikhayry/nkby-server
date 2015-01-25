@@ -1,8 +1,8 @@
 html = require '../services/html'
 json = require '../services/json'
 
-html.get './temp/heavyTextExample.html'
-	.then (data) -> console.log data
+html.get './sidor/46/00preview46.html'
+	#.then (data) -> console.log data
 
 #html.get './temp/faultyTextExample.html'
 	#.then (data) -> console.log data

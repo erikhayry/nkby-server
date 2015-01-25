@@ -1,4 +1,5 @@
 Fs = require 'fs'
+Path = require 'path'
 SanitizeHtml = require 'sanitize-html'
 Cheerio = require 'cheerio'
 Q = require 'Q'
@@ -13,7 +14,7 @@ _sanitizeSettings = {
         } 
 
 #Regexs        
-_regYear = /\d{4}(?![A-z\.\-"'@])/g
+_regYear = /\d{4}(?![A-z\.\-"'@\/])/g
 _regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g
 
@@ -62,17 +63,26 @@ _SortAndClassify = (html) ->
     _handleElement = ($, el, type, index, opt) ->                    
         $(el).addClass type + '-' + index
 
-        attribs: el.attribs
+        src = el.attribs.src || ''
+        href = el.attribs.href || ''
+
         text: $(el).text()
         data: _getElData $(el)
         index: index
+        src:
+            local: el.attribs.src
+            www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src)
+        href: 
+            local: el.attribs.href
+            www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', href)   
 
     $ = Cheerio.load _tag html
     _score = 0
     
     images: _.sortBy(
                 $ 'img'
-                    .map (i, elem) ->
+                    .map (i, elem) ->                 
+                        $(elem).attr('src', 'http://www.nykarlebyvyer.nu'+Path.resolve('/data/www/', elem.attribs.src)) if elem.attribs.src
                         _handleElement $, elem, 'image', i
                     .get()
                 , 'attribs')        
