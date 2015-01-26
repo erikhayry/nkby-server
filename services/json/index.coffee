@@ -2,6 +2,7 @@ Fs = require 'fs'
 Q = require 'Q'
 Path = require 'path'
 _ = require 'lodash-node'
+DB = require '../db'
 _root = ''
 
 _BuildTree = (rootFolder, folder) ->
@@ -29,7 +30,7 @@ _Get = (path) ->
 
 	Fs.exists path, (exists) ->
 		if not exists
-			_deferred.reject()
+			_deferred.reject('unable to open')
 		else
 			Fs.readFile path, 'utf8', (err, data) ->
 				_deferred.reject() err if err
@@ -57,6 +58,32 @@ _Build = (path) ->
 
 	_deferred.promise
 
+
+_BuildDb = () ->
+	arr = []
+	_BuildDocument = (node, root) ->
+		node.map (n) ->
+			_BuildDocument n.children, n.path if n.children
+			
+			arr.push({
+				_id: n.path,
+				path: ','+Path.basename(n.path).replace('/', ',')
+			})
+		
+		return
+
+
+	_Get('./data/tree/sidor.json')
+		.then (data) ->
+			_BuildDocument data.data, data.root
+
+			console.log arr.length
+			Fs.writeFile './tree.json', JSON.stringify(arr, null, '\t')
+
+		, (err) ->
+			console.log err			
+
 module.exports = 
 	get: _Get
 	build: _Build
+	buildDb: _BuildDb

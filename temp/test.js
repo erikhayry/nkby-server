@@ -4,8 +4,6 @@ html = require('../services/html');
 
 json = require('../services/json');
 
-html.get('./sidor/46/00preview46.html');
-
 
 /*json.get './backup/1421918588069_nkby.testData.json'
 	.then (data) -> 
@@ -13,5 +11,7 @@ html.get('./sidor/46/00preview46.html');
 		, (err) -> 
 			console.log 'unable to read file'
  */
+
+json.buildDb('sidor');
 
 //# sourceMappingURL=test.js.map

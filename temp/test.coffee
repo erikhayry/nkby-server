@@ -1,7 +1,7 @@
 html = require '../services/html'
 json = require '../services/json'
 
-html.get './sidor/46/00preview46.html'
+#html.get './sidor/46/00preview46.html'
 	#.then (data) -> console.log data
 
 #html.get './temp/faultyTextExample.html'
@@ -14,5 +14,4 @@ html.get './sidor/46/00preview46.html'
 			console.log 'unable to read file'###
 		
 
-#json.build 'sidor'
-	#.then (data) -> console.log data
+json.buildDb 'sidor'

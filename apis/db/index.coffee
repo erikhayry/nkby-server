@@ -1,4 +1,6 @@
-module.exports = (app) ->
+module.exports = (app, db) ->
+
+
 	app.param 'collectionName', (req, res, next, collectionName) ->
 		req.collection = db.collection collectionName
 		next()

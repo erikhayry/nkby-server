@@ -1,4 +1,4 @@
-var Fs, Path, Q, _, _Build, _BuildTree, _Get, _root;
+var DB, Fs, Path, Q, _, _Build, _BuildDb, _BuildTree, _Get, _root;
 
 Fs = require('fs');
 
@@ -7,6 +7,8 @@ Q = require('Q');
 Path = require('path');
 
 _ = require('lodash-node');
+
+DB = require('../db');
 
 _root = '';
 
@@ -38,7 +40,7 @@ _Get = function(path) {
   _deferred = Q.defer();
   Fs.exists(path, function(exists) {
     if (!exists) {
-      return _deferred.reject();
+      return _deferred.reject('unable to open');
     } else {
       return Fs.readFile(path, 'utf8', function(err, data) {
         if (err) {
@@ -73,9 +75,33 @@ _Build = function(path) {
   return _deferred.promise;
 };
 
+_BuildDb = function() {
+  var arr, _BuildDocument;
+  arr = [];
+  _BuildDocument = function(node, root) {
+    node.map(function(n) {
+      if (n.children) {
+        _BuildDocument(n.children, n.path);
+      }
+      return arr.push({
+        _id: n.path,
+        path: ',' + Path.basename(n.path).replace('/', ',')
+      });
+    });
+  };
+  return _Get('./data/tree/sidor.json').then(function(data) {
+    _BuildDocument(data.data, data.root);
+    console.log(arr.length);
+    return Fs.writeFile('./tree.json', JSON.stringify(arr, null, '\t'));
+  }, function(err) {
+    return console.log(err);
+  });
+};
+
 module.exports = {
   get: _Get,
-  build: _Build
+  build: _Build,
+  buildDb: _BuildDb
 };
 
 //# sourceMappingURL=index.js.map
