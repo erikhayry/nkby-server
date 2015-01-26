@@ -3,10 +3,31 @@ module.exports = function(app, db) {
     req.collection = db.collection(collectionName);
     return next();
   });
+  app.param('parent', function(req, res, next, parent) {
+    req.parent = {
+      "parent": "/" + parent
+    };
+    return next();
+  });
   app.get('/', function(req, res, next) {
     return res.send('please select a collection, e.g., /collections/messages');
   });
+  app.get('/collections/tree/:parent', function(req, res, next) {
+    console.log('here');
+    return db.collection('tree').find(req.parent, {
+      limit: 0,
+      sort: {
+        '_id': 1
+      }
+    }).toArray(function(e, result) {
+      if (e) {
+        return next(e);
+      }
+      return res.send(result);
+    });
+  });
   app.get('/collections/:collectionName', function(req, res, next) {
+    console.log('here 2');
     return req.collection.find({}, {
       limit: 10,
       sort: {

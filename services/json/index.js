@@ -85,14 +85,15 @@ _BuildDb = function() {
       }
       return arr.push({
         _id: n.path,
-        path: ',' + Path.basename(n.path).replace('/', ',')
+        parent: Path.dirname(n.path),
+        base: Path.basename(n.path)
       });
     });
   };
-  return _Get('./data/tree/sidor.json').then(function(data) {
+  return _Get('./data/tree/www.json').then(function(data) {
     _BuildDocument(data.data, data.root);
     console.log(arr.length);
-    return Fs.writeFile('./tree.json', JSON.stringify(arr, null, '\t'));
+    return Fs.writeFile('./data/tree/db_www.json', JSON.stringify(arr, null, '\t'));
   }, function(err) {
     return console.log(err);
   });

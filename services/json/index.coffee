@@ -67,18 +67,19 @@ _BuildDb = () ->
 			
 			arr.push({
 				_id: n.path,
-				path: ','+Path.basename(n.path).replace('/', ',')
+				parent: Path.dirname(n.path),
+				base: Path.basename(n.path)
 			})
 		
 		return
 
 
-	_Get('./data/tree/sidor.json')
+	_Get('./data/tree/www.json')
 		.then (data) ->
 			_BuildDocument data.data, data.root
 
 			console.log arr.length
-			Fs.writeFile './tree.json', JSON.stringify(arr, null, '\t')
+			Fs.writeFile './data/tree/db_www.json', JSON.stringify(arr, null, '\t')
 
 		, (err) ->
 			console.log err			

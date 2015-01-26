@@ -5,11 +5,23 @@ module.exports = (app, db) ->
 		req.collection = db.collection collectionName
 		next()
 
+	app.param 'parent', (req, res, next, parent) ->
+		req.parent = {"parent": "/" + parent}
+		next()
+
 	#DB API
 	app.get '/', (req, res, next) ->
 		res.send 'please select a collection, e.g., /collections/messages'
 
+	app.get '/collections/tree/:parent', (req, res, next) ->
+		console.log 'here'
+		db.collection('tree').find req.parent, limit: 0, sort: '_id': 1
+			.toArray (e, result) ->
+				return next e if e
+				res.send result
+
 	app.get '/collections/:collectionName', (req, res, next) ->
+		console.log 'here 2'
 		req.collection.find {}, limit: 10, sort: '_id': -1
 			.toArray (e, result) ->
 				return next e if e

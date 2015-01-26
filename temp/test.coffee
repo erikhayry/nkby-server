@@ -14,4 +14,6 @@ json = require '../services/json'
 			console.log 'unable to read file'###
 		
 
-json.buildDb 'sidor'
+json.build ''
+	.then () ->
+		json.buildDb 'www'

@@ -12,6 +12,8 @@ json = require('../services/json');
 			console.log 'unable to read file'
  */
 
-json.buildDb('sidor');
+json.build('').then(function() {
+  return json.buildDb('www');
+});
 
 //# sourceMappingURL=test.js.map
