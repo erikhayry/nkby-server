@@ -11,7 +11,6 @@ urlencode = function(str) {
 module.exports = function(app) {
   app.param('path', function(req, res, next, path) {
     req.newpath = urlencode(path);
-    console.log(req.newpath);
     return next();
   });
   app.get('/static/json/:path', function(req, res, next) {

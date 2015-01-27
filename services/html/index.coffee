@@ -15,7 +15,7 @@ _sanitizeSettings = {
 
 #Regexs        
 _regYear = /\d{4}(?![A-z\.\-"'@\/])/g
-_regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g
+_regPeople = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g
 
 _Get = (path) ->
@@ -53,12 +53,12 @@ _SortAndClassify = (html) ->
     _tag = (html) ->
         html
             .replace _regYear, (match) ->
-                '<span class="year">' + match + '</span>'
-            .replace _regPerson, (match) ->
-                '<span class="person">' + match + '</span>'
+                '<span class="years">' + match + '</span>'
+            .replace _regPeople, (match) ->
+                '<span class="people">' + match + '</span>'
             .replace _regStreet, (match) ->
                 match = match.replace('</span>', '') + '</span>' if match.indexOf('</span>') > -1
-                '<span class="street">' + match + '</span>' 
+                '<span class="streets">' + match + '</span>' 
 
     _handleElement = ($, el, type, index, opt) ->                    
         $(el).addClass type + '-' + index
@@ -90,23 +90,23 @@ _SortAndClassify = (html) ->
     links:  _.sortBy(
                 $ 'a'
                     .map (i, elem) ->
-                        _handleElement $, elem, 'link', i
+                        _handleElement $, elem, 'links', i
                     .get()
                 , 'attribs')        
 
     years: _.sortBy(
-                $ '.year'
+                $ '.years'
                     .map (i, elem) ->
                         _score++
-                        _handleElement $, elem, 'year', i
+                        _handleElement $, elem, 'years', i
                     .get()
                 , 'data')
 
     people: _.sortBy(
-                $ '.person'
+                $ '.people'
                     .map (i, elem) ->
                         _score++
-                        _handleElement $, elem, 'person', i
+                        _handleElement $, elem, 'people', i
                     .get()
                 , 'data')
 
@@ -114,7 +114,7 @@ _SortAndClassify = (html) ->
                 $ '.street'
                     .map (i, elem) ->
                         _score++                        
-                        _handleElement $, elem, 'street', i
+                        _handleElement $, elem, 'streets', i
                     .get()
                 , 'data')
 

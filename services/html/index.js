@@ -1,4 +1,4 @@
-var Cheerio, Fs, Path, Q, SanitizeHtml, _, _Get, _Sanitize, _SortAndClassify, _regPerson, _regStreet, _regYear, _sanitizeSettings;
+var Cheerio, Fs, Path, Q, SanitizeHtml, _, _Get, _Sanitize, _SortAndClassify, _regPeople, _regStreet, _regYear, _sanitizeSettings;
 
 Fs = require('fs');
 
@@ -23,7 +23,7 @@ _sanitizeSettings = {
 
 _regYear = /\d{4}(?![A-z\.\-"'@\/])/g;
 
-_regPerson = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
+_regPeople = /[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)(?:\s+[A-ZÅÄÖÉÜ]([a-zåäöéü]+|\.)){1,3}/g;
 
 _regStreet = /([A-ZÅÄÖÉÜ][a-zåäöéü]+(( )|([-])|(<\/span> )))+[1-9][0-9]{0,3}/g;
 
@@ -63,14 +63,14 @@ _SortAndClassify = function(html) {
   };
   _tag = function(html) {
     return html.replace(_regYear, function(match) {
-      return '<span class="year">' + match + '</span>';
-    }).replace(_regPerson, function(match) {
-      return '<span class="person">' + match + '</span>';
+      return '<span class="years">' + match + '</span>';
+    }).replace(_regPeople, function(match) {
+      return '<span class="people">' + match + '</span>';
     }).replace(_regStreet, function(match) {
       if (match.indexOf('</span>') > -1) {
         match = match.replace('</span>', '') + '</span>';
       }
-      return '<span class="street">' + match + '</span>';
+      return '<span class="streets">' + match + '</span>';
     });
   };
   _handleElement = function($, el, type, index, opt) {
@@ -102,19 +102,19 @@ _SortAndClassify = function(html) {
       return _handleElement($, elem, 'image', i);
     }).get(), 'attribs'),
     links: _.sortBy($('a').map(function(i, elem) {
-      return _handleElement($, elem, 'link', i);
+      return _handleElement($, elem, 'links', i);
     }).get(), 'attribs'),
-    years: _.sortBy($('.year').map(function(i, elem) {
+    years: _.sortBy($('.years').map(function(i, elem) {
       _score++;
-      return _handleElement($, elem, 'year', i);
+      return _handleElement($, elem, 'years', i);
     }).get(), 'data'),
-    people: _.sortBy($('.person').map(function(i, elem) {
+    people: _.sortBy($('.people').map(function(i, elem) {
       _score++;
-      return _handleElement($, elem, 'person', i);
+      return _handleElement($, elem, 'people', i);
     }).get(), 'data'),
     streets: _.sortBy($('.street').map(function(i, elem) {
       _score++;
-      return _handleElement($, elem, 'street', i);
+      return _handleElement($, elem, 'streets', i);
     }).get(), 'data'),
     html: _getElData($),
     score: _score

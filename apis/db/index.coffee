@@ -1,3 +1,6 @@
+Path = require 'path'
+Url = require '../../services/url'
+
 module.exports = (app, db) ->
 
 
@@ -6,23 +9,35 @@ module.exports = (app, db) ->
 		next()
 
 	app.param 'parent', (req, res, next, parent) ->
-		req.parent = {"parent": "/" + parent}
+		req.parent =
+			"parent": Path.normalize("/"+Url.encode(parent))
+			"trashed": { $ne: true }
 		next()
+
+	app.param 'id', (req, res, next, id) ->
+		req.id = Path.normalize("/"+Url.encode(id))
+		next()		
 
 	#DB API
 	app.get '/', (req, res, next) ->
 		res.send 'please select a collection, e.g., /collections/messages'
 
+	#get child nodes	
 	app.get '/collections/tree/:parent', (req, res, next) ->
-		console.log 'here'
-		db.collection('tree').find req.parent, limit: 0, sort: '_id': 1
+		db.collection('tree').find(
+			req.parent, 
+			limit: 0, 
+			sort: '_id': 1
+			)
 			.toArray (e, result) ->
 				return next e if e
 				res.send result
 
+
+
+
 	app.get '/collections/:collectionName', (req, res, next) ->
-		console.log 'here 2'
-		req.collection.find {}, limit: 10, sort: '_id': -1
+		req.collection.find {}, limit: 10, sort: '_id': 1
 			.toArray (e, result) ->
 				return next e if e
 				res.send result
@@ -33,20 +48,23 @@ module.exports = (app, db) ->
 			res.send result			
 
 	app.get '/collections/:collectionName/:id', (req, res, next) ->
-		req.collection.findById req.params.id, (e, result) ->
+		req.collection.findById req.id, (e, result) ->
 			return next e if e
 			res.send result
 
 	app.put '/collections/:collectionName/:id', (req, res, next) ->
-	    req.collection.updateById req.params.id, 
+
+	    req.collection.updateById(
+	    	req.id, 
 	    	{$set: req.body}, 
 	    	safe: true, multi: false, 
 	    	(e, result) ->
 	        	return next e if e
-	        	res.send if result == 1 then msg: 'success' else msg: 'error'    
+	        	res.send if result == 1 then msg: 'success' else msg: 'error'
+	       	)
 
 	app.delete '/collections/:collectionName/:id', (req, res, next) ->
-		req.collection.removeById req.params.id, (e, result) ->
+		req.collection.removeById req.id, (e, result) ->
 			return next e if e
 			res.send if result == 1 then msg: 'success' else msg: 'error'	
 

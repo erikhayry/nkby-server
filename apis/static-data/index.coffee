@@ -7,7 +7,6 @@ urlencode  = (str) ->
 module.exports = (app) ->
 	app.param 'path', (req, res, next, path) ->
 		req.newpath = urlencode path
-		console.log req.newpath
 		next()
 
 	app.get '/static/json/:path', (req, res, next) -> 
