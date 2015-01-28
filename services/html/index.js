@@ -74,17 +74,20 @@ _SortAndClassify = function(html) {
     });
   };
   _handleElement = function($, el, type, index, opt) {
-    var href, src;
+    var href, src, wwwSrc;
     $(el).addClass(type + '-' + index);
     src = el.attribs.src || '';
     href = el.attribs.href || '';
+    if (src.indexOf('http://www.nykarlebyvyer.nu') < 0) {
+      wwwSrc = 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src);
+    }
     return {
       text: $(el).text(),
       data: _getElData($(el)),
       index: index,
       src: {
         local: el.attribs.src,
-        www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src)
+        www: wwwSrc || src
       },
       href: {
         local: el.attribs.href,

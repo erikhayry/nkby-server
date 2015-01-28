@@ -66,12 +66,14 @@ _SortAndClassify = (html) ->
         src = el.attribs.src || ''
         href = el.attribs.href || ''
 
+        wwwSrc = 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src) if src.indexOf('http://www.nykarlebyvyer.nu') < 0
+
         text: $(el).text()
         data: _getElData $(el)
         index: index
         src:
             local: el.attribs.src
-            www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src)
+            www: wwwSrc || src
         href: 
             local: el.attribs.href
             www: 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', href)   
