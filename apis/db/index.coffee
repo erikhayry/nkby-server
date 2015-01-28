@@ -14,8 +14,8 @@ module.exports = (app, db) ->
 			"trashed": { $ne: true }
 		next()
 
-	app.param 'path', (req, res, next, path) ->
-		req.path = Path.normalize("/"+Url.encode(path))
+	app.param 'newPath', (req, res, next, newPath) ->
+		req.newPath = Path.normalize("/"+Url.encode(newPath))
 		next()		
 
 	app.param 'id', (req, res, next, id) ->
@@ -36,6 +36,16 @@ module.exports = (app, db) ->
 			.toArray (e, result) ->
 				return next e if e
 				res.send result
+
+	app.put '/collections/tree/:newPath', (req, res, next) ->		
+	   	db.collection('tree').updateById(
+	    	req.newPath, 
+	    	{$set:req.body}, 
+	    	safe: true, multi: false, 
+	    	(e, result) ->
+	        	return next e if e
+	        	res.send result
+	       	)	
 
 	app.get '/collections/map/:latitude/:longitude', (req, res, next) ->
 		db.collection('map').find(

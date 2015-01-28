@@ -18,8 +18,8 @@ module.exports = function(app, db) {
     };
     return next();
   });
-  app.param('path', function(req, res, next, path) {
-    req.path = Path.normalize("/" + Url.encode(path));
+  app.param('newPath', function(req, res, next, newPath) {
+    req.newPath = Path.normalize("/" + Url.encode(newPath));
     return next();
   });
   app.param('id', function(req, res, next, id) {
@@ -36,6 +36,19 @@ module.exports = function(app, db) {
         '_id': 1
       }
     }).toArray(function(e, result) {
+      if (e) {
+        return next(e);
+      }
+      return res.send(result);
+    });
+  });
+  app.put('/collections/tree/:newPath', function(req, res, next) {
+    return db.collection('tree').updateById(req.newPath, {
+      $set: req.body
+    }, {
+      safe: true,
+      multi: false
+    }, function(e, result) {
       if (e) {
         return next(e);
       }
