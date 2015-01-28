@@ -14,8 +14,12 @@ module.exports = (app, db) ->
 			"trashed": { $ne: true }
 		next()
 
+	app.param 'path', (req, res, next, path) ->
+		req.path = Path.normalize("/"+Url.encode(path))
+		next()		
+
 	app.param 'id', (req, res, next, id) ->
-		req.id = Path.normalize("/"+Url.encode(id))
+		req.id = id
 		next()		
 
 	#DB API
@@ -46,13 +50,11 @@ module.exports = (app, db) ->
 				return next e if e
 				res.send result
 
-
-
 	app.get '/collections/:collectionName', (req, res, next) ->
 		req.collection.find {}, limit: 10, sort: '_id': 1
 			.toArray (e, result) ->
 				return next e if e
-				res.send result
+				res.send result 
 
 	app.post '/collections/:collectionName', (req, res, next) ->
 		req.collection.insert req.body, {}, (e, result) -> 
@@ -68,7 +70,7 @@ module.exports = (app, db) ->
 
 	    req.collection.updateById(
 	    	req.id, 
-	    	{$set: req.body}, 
+	    	req.body, 
 	    	safe: true, multi: false, 
 	    	(e, result) ->
 	        	return next e if e

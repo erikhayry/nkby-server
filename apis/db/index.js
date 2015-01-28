@@ -18,8 +18,12 @@ module.exports = function(app, db) {
     };
     return next();
   });
+  app.param('path', function(req, res, next, path) {
+    req.path = Path.normalize("/" + Url.encode(path));
+    return next();
+  });
   app.param('id', function(req, res, next, id) {
-    req.id = Path.normalize("/" + Url.encode(id));
+    req.id = id;
     return next();
   });
   app.get('/', function(req, res, next) {
@@ -84,9 +88,7 @@ module.exports = function(app, db) {
     });
   });
   app.put('/collections/:collectionName/:id', function(req, res, next) {
-    return req.collection.updateById(req.id, {
-      $set: req.body
-    }, {
+    return req.collection.updateById(req.id, req.body, {
       safe: true,
       multi: false
     }, function(e, result) {
