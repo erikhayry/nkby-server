@@ -38,6 +38,22 @@ module.exports = function(app, db) {
       return res.send(result);
     });
   });
+  app.get('/collections/map/:latitude/:longitude', function(req, res, next) {
+    return db.collection('map').find({
+      latitude: req.params.latitude,
+      longitude: req.params.longitude
+    }, {
+      limit: 0,
+      sort: {
+        '_id': 1
+      }
+    }).toArray(function(e, result) {
+      if (e) {
+        return next(e);
+      }
+      return res.send(result);
+    });
+  });
   app.get('/collections/:collectionName', function(req, res, next) {
     return req.collection.find({}, {
       limit: 10,
@@ -77,11 +93,7 @@ module.exports = function(app, db) {
       if (e) {
         return next(e);
       }
-      return res.send(result === 1 ? {
-        msg: 'success'
-      } : {
-        msg: 'error'
-      });
+      return res.send(result);
     });
   });
   app["delete"]('/collections/:collectionName/:id', function(req, res, next) {
@@ -89,11 +101,7 @@ module.exports = function(app, db) {
       if (e) {
         return next(e);
       }
-      return res.send(result === 1 ? {
-        msg: 'success'
-      } : {
-        msg: 'error'
-      });
+      return res.send(result);
     });
   });
   return app;

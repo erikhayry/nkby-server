@@ -33,6 +33,18 @@ module.exports = (app, db) ->
 				return next e if e
 				res.send result
 
+	app.get '/collections/map/:latitude/:longitude', (req, res, next) ->
+		db.collection('map').find(
+			{
+				latitude: req.params.latitude
+				longitude: req.params.longitude
+			}, 
+			limit: 0, 
+			sort: '_id': 1
+			)
+			.toArray (e, result) ->
+				return next e if e
+				res.send result
 
 
 
@@ -60,12 +72,12 @@ module.exports = (app, db) ->
 	    	safe: true, multi: false, 
 	    	(e, result) ->
 	        	return next e if e
-	        	res.send if result == 1 then msg: 'success' else msg: 'error'
+	        	res.send result
 	       	)
 
 	app.delete '/collections/:collectionName/:id', (req, res, next) ->
 		req.collection.removeById req.id, (e, result) ->
 			return next e if e
-			res.send if result == 1 then msg: 'success' else msg: 'error'	
+			res.send result	
 
 	app

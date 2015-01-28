@@ -78,7 +78,7 @@ _SortAndClassify = function(html) {
     $(el).addClass(type + '-' + index);
     src = el.attribs.src || '';
     href = el.attribs.href || '';
-    if (src.indexOf('http://www.nykarlebyvyer.nu') < 0) {
+    if (src.indexOf('http') < 0) {
       wwwSrc = 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', src);
     }
     return {
