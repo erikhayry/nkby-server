@@ -31,7 +31,6 @@ _Get = function(path) {
   var _deferred;
   _deferred = Q.defer();
   path = './data/www/' + path;
-  console.log(path);
   Fs.exists(path, function(exists) {
     if (!exists) {
       console.log('not found');

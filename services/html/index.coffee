@@ -22,8 +22,6 @@ _Get = (path) ->
     _deferred = Q.defer()
     path = './data/www/'+path
 
-    console.log path
-
     Fs.exists path, (exists) ->
         if not exists
             console.log 'not found'
