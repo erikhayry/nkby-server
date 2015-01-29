@@ -53,7 +53,7 @@ module.exports = (app, db) ->
 				latitude: req.params.latitude
 				longitude: req.params.longitude
 			}, 
-			limit: 0, 
+			limit: 2000, 
 			sort: '_id': 1
 			)
 			.toArray (e, result) ->
@@ -61,7 +61,7 @@ module.exports = (app, db) ->
 				res.send result
 
 	app.get '/collections/:collectionName', (req, res, next) ->
-		req.collection.find {}, limit: 10, sort: '_id': 1
+		req.collection.find {}, limit: 2000, sort: '_id': 1
 			.toArray (e, result) ->
 				return next e if e
 				res.send result 
@@ -76,20 +76,23 @@ module.exports = (app, db) ->
 			return next e if e
 			res.send result
 
-	app.put '/collections/:collectionName/:id', (req, res, next) ->
+	app.put "/collections/:collectionName/:id", (req, res, next) ->
+	  req.collection.updateById req.id, req.body,
+	    safe: true
+	    multi: false
+	  , (e, result) ->
+	    if e
+	      return next(e)
+	    res.send( result == 1 ) ? msg:'success' : msg:'error'
 
-	    req.collection.updateById(
-	    	req.id, 
-	    	req.body, 
-	    	safe: true, multi: false, 
-	    	(e, result) ->
-	        	return next e if e
-	        	res.send result
-	       	)
+
 
 	app.delete '/collections/:collectionName/:id', (req, res, next) ->
-		req.collection.removeById req.id, (e, result) ->
-			return next e if e
-			res.send result	
+		req.collection.removeById req.id,
+	  	(e, result) ->
+	    	if e
+	      		return next(e)
+	    	res.send( result == 1 ) ? msg:'success' : msg:'error'
+
 
 	app

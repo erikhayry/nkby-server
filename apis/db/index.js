@@ -60,7 +60,7 @@ module.exports = function(app, db) {
       latitude: req.params.latitude,
       longitude: req.params.longitude
     }, {
-      limit: 0,
+      limit: 2000,
       sort: {
         '_id': 1
       }
@@ -73,7 +73,7 @@ module.exports = function(app, db) {
   });
   app.get('/collections/:collectionName', function(req, res, next) {
     return req.collection.find({}, {
-      limit: 10,
+      limit: 2000,
       sort: {
         '_id': 1
       }
@@ -100,23 +100,37 @@ module.exports = function(app, db) {
       return res.send(result);
     });
   });
-  app.put('/collections/:collectionName/:id', function(req, res, next) {
+  app.put("/collections/:collectionName/:id", function(req, res, next) {
     return req.collection.updateById(req.id, req.body, {
       safe: true,
       multi: false
     }, function(e, result) {
+      var _ref;
       if (e) {
         return next(e);
       }
-      return res.send(result);
+      return (_ref = res.send(result === 1)) != null ? _ref : {
+        msg: {
+          'success': {
+            msg: 'error'
+          }
+        }
+      };
     });
   });
   app["delete"]('/collections/:collectionName/:id', function(req, res, next) {
     return req.collection.removeById(req.id, function(e, result) {
+      var _ref;
       if (e) {
         return next(e);
       }
-      return res.send(result);
+      return (_ref = res.send(result === 1)) != null ? _ref : {
+        msg: {
+          'success': {
+            msg: 'error'
+          }
+        }
+      };
     });
   });
   return app;
