@@ -53,24 +53,14 @@ _Get = function(path) {
   return _deferred.promise;
 };
 
-_Build = function(path) {
-  var _dataPath, _deferred, _dirTree, _json, _jsonPath;
+_Build = function(data) {
+  var _deferred;
   _deferred = Q.defer();
-  _dataPath = './data/www/';
-  _dirTree = _BuildTree(_dataPath, path, false, null).children;
-  _json = {
-    data: _dirTree,
-    root: _dataPath
-  };
-  _jsonPath = './data/tree/' + path.replace(/\//g, '-') + '.json';
-  if (Fs.existsSync(_jsonPath)) {
-    Fs.renameSync(_jsonPath, './data/tree/' + path.replace(/\//g, '-') + new Date().getTime() + '.json');
-  }
-  Fs.writeFile(_jsonPath, JSON.stringify(_json, null, '\t'), function(err) {
+  Fs.writeFile('./map.json', JSON.stringify(data, null, '\t'), function(err) {
     if (err) {
       _deferred.reject(err);
     }
-    return _deferred.resolve(_json);
+    return _deferred.resolve('./map.json');
   });
   return _deferred.promise;
 };

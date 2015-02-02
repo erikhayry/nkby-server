@@ -9,6 +9,13 @@ module.exports = (app) ->
 		req.newpath = urlencode path
 		next()
 
+	app.post '/static/json', (req, res, next) -> 
+		Json.build req.body
+			.then (data) ->
+				res.send data
+			,	(err) ->
+				res.send 'unable to get json for ' + req.newpath
+
 	app.get '/static/json/:path', (req, res, next) -> 
 		Json.get req.newpath
 			.then (data) ->

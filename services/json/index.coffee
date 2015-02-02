@@ -38,26 +38,14 @@ _Get = (path) ->
 
 	_deferred.promise
 
-_Build = (path) ->
+_Build = (data) ->
 	_deferred = Q.defer()
-	_dataPath = './data/www/'
-	_dirTree = _BuildTree _dataPath, path, false, null
-		.children
 	
-	_json = 
-		data: _dirTree
-		root: _dataPath
-
-	_jsonPath = './data/tree/' + path.replace(/\//g, '-') + '.json'
-
-	Fs.renameSync(_jsonPath, './data/tree/' + path.replace(/\//g, '-') + new Date().getTime() + '.json') if Fs.existsSync _jsonPath
-
-	Fs.writeFile _jsonPath, JSON.stringify(_json, null, '\t'), (err) ->
+	Fs.writeFile './map.json', JSON.stringify(data, null, '\t'), (err) ->
 		_deferred.reject err if err
-		_deferred.resolve _json
+		_deferred.resolve './map.json'
 
 	_deferred.promise
-
 
 _BuildDb = () ->
 	arr = []

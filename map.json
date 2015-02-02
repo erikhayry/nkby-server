@@ -1,0 +1,98 @@
+[
+	{
+		"_id": "54cf39e0353b487879963ad0",
+		"latitude": 63.52238929925254,
+		"longitude": 22.528624534606934,
+		"items": [
+			{
+				"_id": "54cf39df353b487879963acf",
+				"parent": "heavyTextExample.html",
+				"name": "namn 2",
+				"src": "http://www.nykarlebyvyer.nu/bilder/pensarl/hjaltegr.jpg",
+				"type": "image",
+				"people": [],
+				"years": []
+			},
+			{
+				"_id": "54cf47ae353b487879963ad8",
+				"parent": "heavyTextExample.html",
+				"name": "anothr",
+				"src": "http://www.nykarlebyvyer.nu/bilder/pensarl/hjaltegr.jpg",
+				"type": "image",
+				"people": [],
+				"years": []
+			}
+		]
+	},
+	{
+		"_id": "54cf3a74353b487879963ad2",
+		"latitude": 63.525106158634266,
+		"longitude": 22.530341148376465,
+		"items": [
+			{
+				"_id": "54cf3abf353b487879963ad5",
+				"parent": "heavyTextExample.html",
+				"name": "test 3",
+				"src": "http://www.nykarlebyvyer.nu/bilder/pensarl/hjaltegr.jpg",
+				"type": "image",
+				"people": [],
+				"years": []
+			}
+		]
+	},
+	{
+		"_id": "54cf3aab353b487879963ad4",
+		"latitude": 63.51902156525824,
+		"longitude": 22.527766227722168,
+		"items": [
+			{
+				"_id": "54cf3aab353b487879963ad3",
+				"parent": "heavyTextExample.html",
+				"name": "test 3",
+				"src": "http://www.nykarlebyvyer.nu/bilder/pensarl/hjaltegr.jpg",
+				"type": "image",
+				"people": [],
+				"years": []
+			}
+		]
+	},
+	{
+		"_id": "54cf3bf9353b487879963ad7",
+		"latitude": 63.525871424444105,
+		"longitude": 22.520899772644043,
+		"items": [
+			{
+				"_id": "54cf3bf9353b487879963ad6",
+				"parent": "heavyTextExample.html",
+				"name": "logo",
+				"src": "https://camo.githubusercontent.com/62fb41b593a1c86148d7190be0ece851748e78bb/687474703a2f2f6a73322e636f666665652f6173736574732f6c6f676f2d77686974652e737667",
+				"type": "image",
+				"people": [],
+				"years": []
+			}
+		]
+	},
+	{
+		"_id": "54cf600f5d94b7e41c1b4fd8",
+		"name": "name of place",
+		"latitude": 63.518868476998215,
+		"longitude": 22.514805793762207,
+		"items": [
+			{
+				"_id": "54cf600f5d94b7e41c1b4fd7",
+				"parent": "heavyTextExample.html",
+				"name": "sdfsdfdsf",
+				"src": "http://www.nykarlebyvyer.nu/bilder/pensarl/hjaltegr.jpg",
+				"type": "image",
+				"people": [
+					"Österbottniska Posten",
+					"W. Prüss"
+				],
+				"years": [
+					"4222",
+					"4981"
+				]
+			}
+		]
+	}
+]

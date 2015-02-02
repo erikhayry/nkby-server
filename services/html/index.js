@@ -104,6 +104,9 @@ _SortAndClassify = function(html) {
       return _handleElement($, elem, 'image', i);
     }).get(), 'attribs'),
     links: _.sortBy($('a').map(function(i, elem) {
+      if (elem.attribs.href) {
+        $(elem).attr('href', 'http://www.nykarlebyvyer.nu' + Path.resolve('/data/www/', elem.attribs.href));
+      }
       return _handleElement($, elem, 'links', i);
     }).get(), 'attribs'),
     years: _.sortBy($('.years').map(function(i, elem) {

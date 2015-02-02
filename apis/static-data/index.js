@@ -13,6 +13,13 @@ module.exports = function(app) {
     req.newpath = urlencode(path);
     return next();
   });
+  app.post('/static/json', function(req, res, next) {
+    return Json.build(req.body).then(function(data) {
+      return res.send(data);
+    }, function(err) {
+      return res.send('unable to get json for ' + req.newpath);
+    });
+  });
   app.get('/static/json/:path', function(req, res, next) {
     return Json.get(req.newpath).then(function(data) {
       return res.send(data);

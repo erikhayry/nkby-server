@@ -90,6 +90,7 @@ _SortAndClassify = (html) ->
     links:  _.sortBy(
                 $ 'a'
                     .map (i, elem) ->
+                        $(elem).attr('href', 'http://www.nykarlebyvyer.nu'+Path.resolve('/data/www/', elem.attribs.href)) if elem.attribs.href                        
                         _handleElement $, elem, 'links', i
                     .get()
                 , 'attribs')        
